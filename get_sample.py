@@ -1,39 +1,26 @@
-# Libraries
-import statistics as st
 import numpy as np
-from numpy.random import normal
-# from matplotlib import pyplot
-# import matplotlib.pyplot as plt
 
 
-def normal_dist(data_frame):
-    # Preallocate arrays
-    sample_size = 1000
-    sample_ave = []
-    sample_stdev = []
-    sample_random = []
-# Interate through each row
-    for i in range(len(data_frame)):
-        ave = data_frame.loc[i, 'Nominal']
-        std_dev = data_frame.loc[i, 'SD']
-# Creating a normal distribution of each body
-        sample = normal(ave, std_dev, sample_size)
-# Choosing a random value within the normal distribution
-        random_value = np.random.choice(sample)
-# Plot
-    # pyplot.hist(sample, bins=20)
-    # pyplot.title('%d Samples'%sample_size)
-    # pyplot.show()
-# Collecting mean and sigma from sample
-        sample_ave.append(st.mean(sample))
-        sample_stdev.append(st.stdev(sample))
-        sample_random.append(random_value)
-    return [sample_ave, sample_stdev, sample_random]
+class RandomSampleGenerator:
 
+    def __init__(self, data_frame):
+        self.data_frame = data_frame
 
-def main():
-    print('Running get_sample module directly')
+    def vertical_stack(self, sample_size):
+        # Extract 'Nominal' and 'SD' columns as arrays
+        ave = self.data_frame['Nominal'].to_numpy()
+        std = self.data_frame['SD'].to_numpy()
 
+        # Create an array with the value sample_size for each row
+        sizes = np.full(self.data_frame.shape[0], sample_size)
 
-if __name__ == '__main__':
-    main()
+        # Stack 'ave', 'std', and 'sizes' vertically
+        v_stack = np.column_stack((ave, std, sizes))
+        return v_stack
+
+    def normal_dist(self, row):
+        mean = row[0]  # 'Nominal'
+        std = row[1]   # 'SD'
+        sizes = int(row[2])  # Convert to integer
+        samples = np.random.normal(mean, std, sizes)
+        return samples

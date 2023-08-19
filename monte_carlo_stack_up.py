@@ -1,18 +1,18 @@
 # Monte Carlo Simulation method for random distribution
 import numpy as np
 
-# math for internal stack up
-# sum all the individual random samples for each body together
+# Math for internal stack up
+# Sum all the individual random samples for each body together
 
 
 def in_body_measure(in_samp_val):
     internal_body_stack = round(sum(in_samp_val), 3)
     return internal_body_stack
 
-# math for external stack up
-# not as straight forward and require understanding the ME design
-# calculate the difference on the top and bottom bodies to get the thickness
-# then sum all the individual random samples for each body together
+# Math for external stack up
+# Not as straight forward and require understanding the ME design
+# Calculate the difference on the top and bottom bodies to get the thickness
+# Then sum all the individual random samples for each bodies together
 
 
 def ex_body_measure(ex_samp_val):
@@ -26,11 +26,3 @@ def ex_body_measure(ex_samp_val):
         return external_body_stack
     else:
         return print('ArgumentError: This particular case require atleast 5 argument')
-
-
-def main():
-    print('Running monte_carlo_stack_up module directly')
-
-
-if __name__ == '__main__':
-    main()
